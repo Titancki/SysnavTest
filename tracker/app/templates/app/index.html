@@ -1,0 +1,55 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+      <form class="form-inline" action="" method="get">
+        <select class="custom-select mr-sm-2" name="jsonPath">
+          <option value="traj1.json">Trajectoire 1</option>
+          <option value="traj2.json">Trajectoire 2</option>
+          <option value="traj3.json">Trajectoire 3</option>
+        </select>
+      <button type="submit" class="btn btn-primary">Go</button>
+      </form>
+    </div>
+
+
+    <div class="container">
+      <div id="map">
+      </div>
+    </div>
+
+    <div class="container">
+      <hr/>
+      <p class="font-weight-bold">Degrés de confiance</p>
+      <div id="caption"></div>
+      <div class="row">
+        <p class="col text-left"><50%</p>
+        <p class="col text-center">75%</p>
+        <p class="col text-right">100%</p>
+      </div>
+      <div class="media">
+        <img src="/static/icons/start.png" class="align-self-top mr-3">
+        <div class="media-body">
+          <p>Point de départ</p>
+        </div>
+      </div>
+      <div class="media">
+        <img src="/static/icons/end.png" class="align-self-top mr-3">
+        <div class="media-body">
+          <p>Point d'arrivée</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var height = 500;
+      var mapId = "map"
+      var locations = {{locations|safe}}
+      var color = '#5272c3'
+
+      map = init_map(height, mapId);
+      add_polyline(map, locations, color)
+      add_markers(map,locations)
+    </script>
+{% endblock %}

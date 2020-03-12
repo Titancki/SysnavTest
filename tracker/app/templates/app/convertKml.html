@@ -2,6 +2,15 @@
 
 {% block content %}
     <div class="container">
-        {{ kml }}
+      <form class="form-inline" action="/downloadKml" method="get">
+        <select class="custom-select mr-sm-2" name="jsonPath">
+          <option value="traj1.json">Trajectoire 1</option>
+          <option value="traj2.json">Trajectoire 2</option>
+          <option value="traj3.json">Trajectoire 3</option>
+          <option value="traj4.json">Trajectoire 4</option>
+          <option value="traj5.json">Trajectoire 5</option>
+        </select>
+      <button type="submit" class="btn btn-primary">Go</button>
+      </form>
     </div>
 {% endblock %}

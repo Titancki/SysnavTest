@@ -7,27 +7,47 @@ def locationsToKml(locations):
     :param locations: [Location object array]
     :return: [string] kml formated
     '''
-    kmlOutput = "<?xml version='1.0' encoding='UTF-8'?>" \
-                    "<kml xmlns='http://www.opengis.net/kml/2.2'>"
+    kmlOutput = "<?xml version='1.0' encoding='UTF-8'?>\n" \
+                    "<kml xmlns='http://www.opengis.net/kml/2.2'>\n"
     check = True
+    error = {
+        "1": "Expect Location model\n",
+        "2": "Missing id\n",
+        "3": "Missing coordinates\n"
+    }
+    errors = []
+    http = 200
+    i = 0
     for location in locations:
-        if(isinstance(location, Location)):
+        if isinstance(location, Location):
+            if location.id:
+                errors.append(error['2'] + " in locations [" + str(i) + "]")
+
+            if location.posArray:
+                errors.append(error['3'] + " in locations [" + str(i) + "]")
             name = str(location.id)
             description = ""
             coordinates = str(location.posArray)
-            kmlOutput += "<Placemark>" \
-                             "<name>"+name+"</name>" \
-                             "<description>"+description+"</description>" \
-                             "<Point>" \
-                                "<coordinates>"+coordinates+"</coordinates>" \
-                            "</Point>" \
-                         "</Placemark>"
+            kmlOutput += "  <Placemark>\n" \
+                         "    <name>"+name+"</name>\n" \
+                         "      <description>"+description+"</description>\n" \
+                         "        <Point>\n" \
+                         "          <coordinates>"+coordinates+"</coordinates>\n" \
+                         "        </Point>\n" \
+                         "  </Placemark>\n"
+            i += 1
         else:
             check = False
+            errors.append(error['1'] + " in locations [" + str(i) + "]")
     kmlOutput += "</kml>"
-    if not(check):
-        kmlOutput = "Error: Wrong type"
-    return kmlOutput
+    if not check:
+        http = 500
+        kmlOutput = errors
+    output = {
+        "http": http,
+        "data": "kmlOutput"
+    }
+    return output
 
 def jsonToLocations(jsonPath):
     '''
@@ -56,3 +76,6 @@ def jsonToLocations(jsonPath):
         locations.append(tmpObj)
         i += 1
     return locations
+
+def test(jsonPath):
+    return locationsToKml(jsonToLocations(jsonPath))

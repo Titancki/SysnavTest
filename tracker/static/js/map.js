@@ -1,11 +1,8 @@
 function init_map(height, mapId){
     /*
-        Initialize a map.
-       Params:
-           height: value in px for height map. Width is 100% by default.
-           mapId: div id for map
-       Returns:
-            map : a map object.
+       :params: height: value in px for height map. Width is 100% by default.
+       :params: mapId: div id for map
+       :return: map : a map object.
     */
     document.getElementById(mapId).style.height = height +'px';
 
@@ -23,12 +20,9 @@ function init_map(height, mapId){
 }
 function add_polyline(map, locations, color){
     /*
-        Add a polyline path to a map.
-        Params:
-            map: See init_map()
-            dataPoints: [
-                [lat,lng],
-            ]
+        :params: map: a map object
+        :params: locations: array of location models formated in json
+        :color: color: color of polyline
     */
     locations = JSON.parse(JSON.stringify(locations))
     dataPoints = []
@@ -40,10 +34,8 @@ function add_polyline(map, locations, color){
 }
 function add_markers(map, locations){
     /*
-        Add markers with confiance levels on path
-        Params:
-            map: See init_map()
-            locations: [Location json]
+        :params: map: a map object
+        :params: locations: array of location models formated in json
     */
     // Init icons
       var lowIcon = L.icon({

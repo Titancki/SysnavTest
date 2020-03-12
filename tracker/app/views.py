@@ -5,10 +5,11 @@ from django.conf import settings
 from app.utils.convert import locationsToKml, jsonToLocations
 import os
 def index(request):
+    jsonFolder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../static/json/')
     if request.method == 'GET' and 'jsonPath' in request.GET:
-        jsonPath = 'static/json/' + request.GET['jsonPath']
+        jsonPath = os.path.join(jsonFolder,request.GET['jsonPath'])
     else:
-        jsonPath = 'static/json/traj1.json'
+        jsonPath = os.path.join(jsonFolder,'traj1.json')
 
     locations = jsonToLocations(jsonPath)
     locations = serializers.serialize("json", locations)
@@ -28,10 +29,11 @@ def convertKml(request):
     return HttpResponse(template.render(context, request))
 
 def downloadKml(request):
+    jsonFolder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../static/json/')
     if request.method == 'GET' and 'jsonPath' in request.GET:
-        jsonPath = 'static/json/' + request.GET['jsonPath']
+        jsonPath = os.path.join(jsonFolder,request.GET['jsonPath'])
     else:
-        jsonPath = 'static/json/traj1.json'
+        jsonPath = os.path.join(jsonFolder,'traj1.json')
 
     locations = jsonToLocations(jsonPath)
 
@@ -39,7 +41,7 @@ def downloadKml(request):
         kmlContent = locationsToKml(locations)["data"]
     else:
         raise 500
-    pathDownload = "static/kml/kmlfile.kml"
+    pathDownload = os.path.join(jsonFolder,"../kml/kmlfile.kml")
     f = open(pathDownload, "w")
     f.write(kmlContent)
     f.close()

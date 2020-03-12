@@ -5,7 +5,10 @@ def locationsToKml(locations):
     '''
 
     :param locations: [Location object array]
-    :return: [string] kml formated
+    :return: [dict] {
+            "http": http status
+            "data": kml formated data
+        }
     '''
     kmlOutput = "<?xml version='1.0' encoding='UTF-8'?>\n" \
                     "<kml xmlns='http://www.opengis.net/kml/2.2'>\n"
@@ -45,7 +48,7 @@ def locationsToKml(locations):
         kmlOutput = errors
     output = {
         "http": http,
-        "data": "kmlOutput"
+        "data": kmlOutput
     }
     return output
 
